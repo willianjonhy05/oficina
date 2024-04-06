@@ -5,6 +5,12 @@ from django.contrib import messages
 from .models import Oficina
 
 
+def home(request):
+    template_name = 'geral/home.html'
+    context = {}
+    return render(request, template_name, context)
+
+
 
 @login_required
 def nova_oficina(request):
@@ -31,3 +37,6 @@ def lista_oficina(request):
         'oficinas': oficinas,
     }
     return render(request, template_name, context)
+
+
+
