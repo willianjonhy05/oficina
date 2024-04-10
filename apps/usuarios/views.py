@@ -17,7 +17,7 @@ def login_usuario(request):
             user = authenticate(username=usuario, password=senha)
             if user is not None and user.is_active:
                 login(request, user)
-                messages.info(request, 'Vocêfez login com sucesso!')
+                messages.info(request, 'Você fez login com sucesso!')
                 return redirect('geral:home')
             else:
                 messages.error(request, 'Usuário ou senha inválidos!')
