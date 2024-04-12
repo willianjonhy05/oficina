@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import OficinaForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -30,6 +30,7 @@ def nova_oficina(request):
     return render(request, template_name, context)
 
 
+@login_required
 def lista_oficina(request):
     template_name = 'geral/lista_oficina.html'
     oficinas = Oficina.objects.filter(usuario=request.user)
@@ -39,4 +40,17 @@ def lista_oficina(request):
     return render(request, template_name, context)
 
 
+
+# @login_required
+# def apagar_oficina(request, id):
+#     oficina = Oficina.objects.get(usuario=request.user, id=id)    
+#     oficina.delete()
+#     return redirect('geral:lista_oficina')
+
+@login_required
+def apagar_oficina(request, pk):
+    oficina = get_object_or_404(Oficina, pk=pk)
+    oficina.delete()
+    messages.info(request, 'Oficina excluída com sucesso!')
+    return redirect('geral:lista_oficina')
 

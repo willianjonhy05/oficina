@@ -6,6 +6,7 @@ app_name = 'geral'
 urlpatterns = [
     path('nova-oficina', views.nova_oficina, name='nova_oficina'),
     path('oficinas/', views.lista_oficina, name='lista_oficina'),
+    path('excluir_oficina/<int:pk>/', views.apagar_oficina, name='apagar_oficina'),
     path('', views.home, name='home'),
     
 ]

@@ -6,7 +6,7 @@ Oficinas | {{ block.super }}
 
 {% block main %}
 
-
+{% include 'utils/messages.html' %}
 
 <table class="table table-striped">
     <thead>
@@ -27,7 +27,7 @@ Oficinas | {{ block.super }}
             <td>{{ oficina.telefone }}</td>
             <td>
                 <a class="btn btn-outline-info btn-sm" href=""><i class="fa-solid fa-arrow-rotate-right"></i></a>
-                <a class="btn btn-outline-danger btn-sm" href=""><i class="fa-regular fa-trash-can"></i></a>
+                <a class="btn btn-outline-danger btn-sm" href="{% url 'geral:apagar_oficina' pk=oficina.id %}"><i class="fa-regular fa-trash-can"></i></a>
             </td>
         
 
