@@ -54,3 +54,32 @@ def apagar_oficina(request, pk):
     messages.info(request, 'Oficina excluída com sucesso!')
     return redirect('geral:lista_oficina')
 
+
+@login_required
+def editar_oficina(request, pk):
+    template_name = 'geral/nova_oficina.html'
+    context = {
+
+    }
+    oficina = get_object_or_404(Oficina, pk=pk)
+    if request.method == 'POST':
+        form = OficinaForm(data=request.POST, instance=oficina)
+        form.save()
+        messages.success(request, 'Oficina atualizada com sucesso!')
+        return redirect('geral:lista_oficina')
+    form = OficinaForm(instance=oficina)
+    context['form'] = form
+    return render(request, template_name, context)
+    
+
+
+# @login_required
+# def atualizar_oficina(request, pk):
+#     template_name = 'geral/nova_oficina.html'
+#     oficina = Oficina.objects.get(usuario=request.user, id=id)
+#     forms = OficinaForm(instance=oficina)
+#     context = {
+#         'forms': forms,
+#     }
+#     if request.method == "POST":
+#     return render(request, template_name, context)
