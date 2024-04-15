@@ -10,12 +10,14 @@ from servicos.models import Oficina
 def novo_servico(request):
     template_name = 'servicos/novo_servico.html'
     context = {}
+    usuario = request.user
+    oficinas = Oficina.objects.filter(usuario=usuario)
     if request.method == 'POST':
         form = ServicoForm(request.POST)
         if form.is_valid():
             of = form.save(commit=False)
-            usuario = request.user
-            oficina = Oficina.objects.get(usuario=usuario)
+            oficina_id = request.POST.get('oficina_id') 
+            oficina = Oficina.objects.get(id=oficina_id)
             of.oficina = oficina
             of.save()
             messages.success(request, 'Serviço cadastrado com sucesso!')
@@ -23,7 +25,8 @@ def novo_servico(request):
     else:
         form = ServicoForm()
     
-    context['form'] = form    
+    context['form'] = form   
+    context['oficinas'] = oficinas  
     return render(request, template_name, context)
 
 @login_required
