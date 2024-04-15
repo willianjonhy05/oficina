@@ -25,8 +25,8 @@ def nova_oficina(request):
             messages.success(request, 'Oficina cadastrada com sucesso!')
             return redirect('geral:lista_oficina')
         
-    form = OficinaForm()
-    context['form'] = form
+    form = OficinaForm()    
+    context['form'] = form    
     return render(request, template_name, context)
 
 
@@ -68,7 +68,9 @@ def editar_oficina(request, pk):
         messages.success(request, 'Oficina atualizada com sucesso!')
         return redirect('geral:lista_oficina')
     form = OficinaForm(instance=oficina)
+    status = 'Salvar'
     context['form'] = form
+    context['Salvar'] = status
     return render(request, template_name, context)
     
 
