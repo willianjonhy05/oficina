@@ -35,7 +35,8 @@ def novo_servico(request):
     context = {}
     if request.method == 'POST':
         form = ServicoForm(request.POST)
-        oficina = get_object_or_404(Oficina, usuario=request.user)
+        usuario = request.user
+        oficina = get_object_or_404(Oficina, usuario=usuario)
         if form.is_valid():
             sf = form.save(commit=False)
             sf.oficina = oficina
@@ -46,26 +47,26 @@ def novo_servico(request):
     context['form'] = form   
     return render(request, template_name, context)
 
-# @login_required
-# def lista_servicos(request):
-#     template_name = 'servicos/lista_servicos.html' 
-#     oficinas = Oficina.objects.filter(usuario=request.user)         
-#     servicos = Servico.objects.filter(oficina__in=oficinas)
-#     context = {
-#         'servicos': servicos,
-#     }
-#     return render(request, template_name, context)
-
-
 @login_required
 def lista_servicos(request):
     template_name = 'servicos/lista_servicos.html' 
-    oficina = get_object_or_404(Oficina, usuario=request.user)
-    servicos = Servico.objects.filter(oficina=oficina)
+    oficinas = Oficina.objects.filter(usuario=request.user)         
+    servicos = Servico.objects.filter(oficina__in=oficinas)
     context = {
         'servicos': servicos,
     }
     return render(request, template_name, context)
+
+
+# @login_required
+# def lista_servicos(request):
+#     template_name = 'servicos/lista_servicos.html' 
+#     oficina = get_object_or_404(Oficina, usuario=request.user)
+#     servicos = Servico.objects.filter(oficina=oficina)
+#     context = {
+#         'servicos': servicos,
+#     }
+#     return render(request, template_name, context)
 
 
 @login_required
@@ -78,9 +79,7 @@ def apagar_servicos(request, pk):
 @login_required
 def editar_servico(request, pk):
     template_name = 'servicos/novo_servico.html'
-    context = {
-
-    }
+    context = {}
     servico = get_object_or_404(Servico, pk=pk)
     if request.method == 'POST':
         form = ServicoForm(data=request.POST, instance=servico)
