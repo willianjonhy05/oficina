@@ -7,7 +7,7 @@ Mecânico | {{ block.super }}
 
 {% block main %}
 
-<h1>Nova Oficina</h1>
+<h1>Novo Mecânico</h1>
 {% include 'utils/messages.html' %}
 <form method='post'>
     {% csrf_token %}
@@ -19,8 +19,7 @@ Mecânico | {{ block.super }}
         <label for="{{ form.codigo.id_for_label }}" class="form-label">{{form.codigo.label}}</label>
         {% render_field form.codigo class="form-control" placeholder='Digite o código do mecânico...' %}
     </div>
-    <button type="submit" class="btn btn-primary"><i class="fa-regular fa-paper-plane"></i><span> </span>{% if
-        form.instance.pk %}Editar{% else %}Criar{% endif %}</button>
+    <button type="submit" class="btn btn-primary"><i class="fa-regular fa-paper-plane"></i><span> </span>{% if form.instance.pk %}Editar{% else %}Criar{% endif %}</button>
     <a href="{% url 'geral:lista_mecanicos' %}" class="btn btn-outline-secondary">Cancelar</a>
 
 </form>

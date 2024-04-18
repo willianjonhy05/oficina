@@ -89,7 +89,7 @@ def editar_oficina(request, pk):
 
 @login_required
 def novo_mecanico(request):
-    template_name = 'servicos/novo_mecanico.html'
+    template_name = 'geral/novo_mecanico.html'
     context = {}
     if request.method == 'POST':
         form = MecanicoOficina(request.POST)
