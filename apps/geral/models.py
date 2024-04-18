@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+from django.core.exceptions import ValidationError
 # Create your models here.
 
 class Oficina(models.Model):
@@ -14,6 +14,11 @@ class Oficina(models.Model):
     def __str__(self) -> str:
         return self.nome
     
+    def clean(self):
+        model = self.__class__
+        if model.objects.count() > 0 and self.id != model.objects.get().id:
+            raise ValidationError('Não é possível cadastrar mais de uma oficina!')
+
     class Meta:
         verbose_name = 'oficina'
         verbose_name_plural = 'Oficinas'
