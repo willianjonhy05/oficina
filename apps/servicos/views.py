@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import ServicoForm
+from .forms import ServicoForm, OrdemdeServicoForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .models import Servico
-from servicos.models import Oficina
+from servicos.models import Oficina, OrdemServico
 
 # Create your views here.
 # @login_required
@@ -88,4 +88,35 @@ def editar_servico(request, pk):
         return redirect('servicos:lista_servicos')
     form = ServicoForm(instance=servico)    
     context['form'] = form    
+    return render(request, template_name, context)
+
+
+@login_required
+def NovaOrdemdeServico(request):
+    template_name = 'servicos/nova_ordem_de_servico.html'
+    context = {}
+    usuario = request.user
+    oficina = Oficina.objects.get(usuario=usuario)
+    if request.method == 'POST':
+        form = OrdemdeServicoForm(request.POST)        
+        oficina = get_object_or_404(Oficina, usuario=usuario)
+        if form.is_valid():
+            os = form.save(commit=False)
+            os.oficina = oficina
+            os.save()
+            messages.success(request, "Ordem de Serviço criada com sucesso!")
+            return redirect('servicos:ordens_de_servicos')
+    form = OrdemdeServicoForm()
+    context['form'] = form   
+    return render(request, template_name, context)
+
+
+@login_required
+def lista_de_ordem_servicos(request):
+    template_name = 'servicos/lista_de_ordem_de_servicos.html' 
+    oficina = Oficina.objects.filter(usuario=request.user)         
+    servicos = OrdemServico.objects.filter(oficina=oficina)
+    context = {
+        'servicos': servicos,
+    }
     return render(request, template_name, context)

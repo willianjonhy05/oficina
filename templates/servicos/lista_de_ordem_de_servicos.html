@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block titulo %}
+Serviços | {{ block.super }}
+{% endblock titulo %}
+
+{% block main %}
+
+{% include 'utils/messages.html' %}
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Mecânico</th>
+            <th scope="col">Cliente</th>
+            <th scope="col">Veículo</th>
+            <th scope="col">Placa</th>
+            <th scope="col">Data de Entrada</th>
+            <th scope="col">Previsão</th>
+            <th scope="col">Código</th>
+            <th scope="col">Serviço</th>
+            <th scope="col">Valor</th>
+            <th scope="col" colspan='2'>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for ordemservico in servicos %}
+        <tr>
+            <th scope="row">{{ ordemservico.mecanico }}</th>
+            <td>{{ ordemservico.cliente }}</td>
+            <td>{{ ordemservico.placa }}</td>
+            <td>{{ ordemservico.data_entrada }}</td>
+            <td>{{ ordemservico.previsao }}</td>
+            <td>{{ ordemservico.codigo }}</td>
+            <td>{{ ordemservico.servico }}</td>
+            <td>{{ ordemservico.servico.valor }}</td>
+            <td>
+                <a class="btn btn-outline-info" href="#"><i class="fa-solid fa-arrow-rotate-right"></i></a>                
+                <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa-regular fa-trash-can"></i></button>
+           
+            </td>      
+
+        </tr>
+
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="exampleModalLabel">Confirmar exclusão</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  Deseja mesmo excluir a ordem de serviço do cliente "{{ ordemservico.cliente }}" do dia {{ ordemservico.data_entrada }}?
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                  <button type="button" class="btn btn-danger">
+                    <a class="text-decoration-none text-white" href="#">Excluir</a>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        {% endfor %}
+    </tbody>
+    
+</table>
+
+
+
+
+<a class="btn btn-primary" href="{% url 'servicos:novo_servico' %}"><i class="fa-solid fa-plus"></i> Novo</a>
+
+{% endblock main %}
+
+

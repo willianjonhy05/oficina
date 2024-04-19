@@ -5,6 +5,7 @@ app_name = 'servicos'
 
 
 urlpatterns = [
+    path('nova-ordem-servico', views.NovaOrdemdeServico, name='nova-ordem-de-servico'),
     path('servicos/', views.lista_servicos, name='lista_servicos'),
     path('novo-servicos', views.novo_servico, name='novo_servico'),    
     path('excluir_servico/<int:pk>/', views.apagar_servicos, name='apagar_servico'),

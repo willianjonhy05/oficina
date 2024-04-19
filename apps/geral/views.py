@@ -120,17 +120,17 @@ def lista_mecanico(request):
 
 @login_required
 def editar_mecanico(request, pk):
-    template_name = 'servicos/novo_mecanico.html'
-    context = {
-
-    }
+    template_name = 'geral/novo_mecanico.html'
+    context = { }
     mecanico = get_object_or_404(Mecanico, pk=pk)
     if request.method == 'POST':
-        form = OficinaForm(data=request.POST, instance=mecanico)
-        form.save()
-        messages.success(request, 'Mecânico atualizado com sucesso!')
-        return redirect('geral:lista_mecanicos')
-    form = OficinaForm(instance=mecanico)
+        form = MecanicoOficina(data=request.POST, instance=mecanico)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Mecânico atualizado com sucesso!')
+            return redirect('geral:lista_mecanicos')
+    form = MecanicoOficina(instance=mecanico)
+    context['form'] = form
     return render(request, template_name, context)
 
 
